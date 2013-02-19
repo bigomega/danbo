@@ -9,10 +9,10 @@ env = Environment(loader=PackageLoader('server', 'templates'))
 
 @app.route("/")
 def hello():
-	u=urlopen('http://www.mtcbus.org/Routes.asp?cboRouteCode='+bus)
+	u=urlopen('http://search.carrot2.org/stable/search?query=laptop&results=100&source=web&algorithm=lingo&view=folders&skin=fancy-compact&EToolsDocumentSource.language=ALL&EToolsDocumentSource.country=ALL&EToolsDocumentSource.safeSearch=false&type=CLUSTERS&_=1361291851804')
 	soup = BeautifulSoup(str(u.read()))
-	out = [x.find('span').string for x in soup.body.div.ul.find_all('li')]
-	return "Hello World!"
+	words = [x.find('span').string for x in soup.body.div.ul.find_all('li')]
+	return str(words)
 
 if __name__ == "__main__":
 	app.run(debug='true')
