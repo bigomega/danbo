@@ -48,7 +48,7 @@ def local(key):
 	maxattempts = 5 # how many times to try the request before giving up
 	maxlag = 5 # seconds http://www.mediawiki.org/wiki/Manual:Maxlag_parameter
 	params = dict(action="query", format="xml", maxlag=maxlag, prop="revisions", rvprop="content", rvsection=0, titles=title)
-	request = urllib2.Request("http://en.wikipedia.org/w/api.php?" + urllib.urlencode(params), headers={"User-Agent": "WikiDownloader/1.2","Referer": "http://stackoverflow.com/q/8044814"})
+	request = urllib2.Request("http://en.wikipedia.org/w/api.php?" + urllib.urlencode(params), headers={"User-Agent": "WikiDownloader/1.2","Referer": "http://stackoverflow.com/"})
 	# make request
 	for _ in range(maxattempts):
 		response = urllib2.urlopen(request)
