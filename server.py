@@ -2,7 +2,8 @@ from flask import Flask, jsonify, render_template, request, Response
 from jinja2 import Environment, PackageLoader
 from urllib import urlopen
 from bs4 import BeautifulSoup
-import json, socket, urllib2, re
+import xml.etree.cElementTree as etree
+import sys, time, json, socket, urllib2, re, requests
 
 app = Flask(__name__)
 env = Environment(loader=PackageLoader('server', 'templates'))
@@ -37,17 +38,26 @@ def test():
 	# 	string+=local(word)
 	return str(words)
 
-def local(key):
-	import sys
-	import time
-	import urllib, urllib2
-	import xml.etree.cElementTree as etree
+def wikiJSONData(key):
+	key = key or "java"
+	data = ""
+	params = dict(action="query", format="json", maxlag=10, prop="revisions", rvprop="content", titles=title)
+	request = urllib2.Request("http://en.wikipedia.org/w/api.php?" + urllib.urlencode(params), headers={"User-Agent": "WikiDownloader/1.2","Referer": "http://stackoverflow.com/"})
+	response = urllib2.urlopen(request)
+	jsonObject = json.loads(response)
+	pages = jsonObject['query']['pages']
+	for page in pages:
+		data = page['revisions'][0]['contentmodel']
+	return data
+
+def wikiData(key):
+	import urllib
 	#
 	title = key or "data_mining"
 	# prepare request
 	maxattempts = 5 # how many times to try the request before giving up
 	maxlag = 5 # seconds http://www.mediawiki.org/wiki/Manual:Maxlag_parameter
-	params = dict(action="query", format="xml", maxlag=maxlag, prop="revisions", rvprop="content", rvsection=0, titles=title)
+	params = dict(action="query", format="xml", maxlag=maxlag, prop="revisions", rvprop="content", titles=title)
 	request = urllib2.Request("http://en.wikipedia.org/w/api.php?" + urllib.urlencode(params), headers={"User-Agent": "WikiDownloader/1.2","Referer": "http://stackoverflow.com/"})
 	# make request
 	for _ in range(maxattempts):
@@ -70,15 +80,18 @@ def local(key):
 		tree.write(sys.stdout)
 		print
 		sys.exit(1)
-	
-	str(u[5]).split('|')[-1].replace(r'&nbsp',' ')
 	return rev_data
 
 if __name__ == "__main__":
 	app.run(debug='true')
-	key="chennai"|key
-	data =local(key)
-	links = re.findall(r'\[\[[^\]\]]*\]\]', data, re.M|re.I) #gets the links
-	for link in links:
+
+	key="java"
+	data =wikiData(key).encode('utf-8')
+	links = []
+	regExLinks = re.findall(r'\[\[[^\]\]]*\]\]', data, re.M|re.I) #gets the links
+	for link in regExLinks:
 		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
-		print link
+		links.append(link)
+
+	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
+	print links,parsedData
