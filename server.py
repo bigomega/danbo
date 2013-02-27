@@ -16,18 +16,18 @@ def index():
 
 @app.route("/wiki")
 def hello():
-	string=""
-	key=request.args.get('key','',type=str)
-	key=key or "java"
-	u=urlopen('http://search.carrot2.org/stable/search?query='+key+'&results=100&source=web&algorithm=lingo&view=folders&skin=fancy-compact&EToolsDocumentSource.language=ALL&EToolsDocumentSource.country=ALL&EToolsDocumentSource.safeSearch=false&type=CLUSTERS&_=1361291851804')
-	soup = BeautifulSoup(str(u.read()))
-	words = [x.find('span').string for x in soup.body.div.ul.find_all('li')]
-	# for word in words:
-	# 	string+=local(word)
-	temp="<center><h2>"+key+"</h2><ul>"
-	for word in words:
-		temp+="<li>"+word+"</li>"
-	return temp
+	string = ""
+	html = ""
+	key= request.args.get('key','',type=str) or "java"
+	data = wikiData(key).encode('utf-8')
+	links = []
+	regExLinks = re.findall(r'\[\[[^\]\]]*\]\]', data, re.M|re.I) #gets the links
+	for link in regExLinks:
+		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
+		links.append(link)
+	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
+	html = links + "<br><br>" + parsedData
+	return html
 
 @app.route("/test")
 def test():
@@ -37,6 +37,17 @@ def test():
 	# for word in words:
 	# 	string+=local(word)
 	return str(words)
+
+def carrot2(key):
+	u=urlopen('http://search.carrot2.org/stable/search?query='+key+'&results=100&source=web&algorithm=lingo&view=folders&skin=fancy-compact&EToolsDocumentSource.language=ALL&EToolsDocumentSource.country=ALL&EToolsDocumentSource.safeSearch=false&type=CLUSTERS&_=1361291851804')
+	soup = BeautifulSoup(str(u.read()))
+	words = [x.find('span').string for x in soup.body.div.ul.find_all('li')]
+	# for word in words:
+	# 	string+=local(word)
+	temp="<center><h2>"+key+"</h2><ul>"
+	for word in words:
+		temp+="<li>"+word+"</li>"
+	return temp
 
 def wikiJSONData(key):
 	key = key or "java"
@@ -84,14 +95,3 @@ def wikiData(key):
 
 if __name__ == "__main__":
 	app.run(debug='true')
-
-	key="java"
-	data =wikiData(key).encode('utf-8')
-	links = []
-	regExLinks = re.findall(r'\[\[[^\]\]]*\]\]', data, re.M|re.I) #gets the links
-	for link in regExLinks:
-		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
-		links.append(link)
-
-	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
-	print links,parsedData
