@@ -26,7 +26,8 @@ def hello():
 		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
 		links.append(link)
 	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
-	html = links + "<br><br>" + parsedData
+	sentences = splitParagraphIntoSentences(parsedData)
+	html = links + "<br><br>" + sentences
 	return html
 
 @app.route("/test")
@@ -37,6 +38,24 @@ def test():
 	# for word in words:
 	# 	string+=local(word)
 	return str(words)
+
+def splitParagraphIntoSentences(paragraph):
+	sentenceEnders = re.compile(r"""
+			(?:               
+			(?<=[.!?])      
+			| (?<=[.!?]['"])  
+			)                 
+			(?<!  Mr\.   )    
+			(?<!  Mrs\.  )   
+			(?<!  Jr\.   )    
+			(?<!  Dr\.   )    
+			(?<!  Prof\. )    
+			(?<!  Sr\.   )    
+			\s+               
+			""", 
+		re.IGNORECASE | re.VERBOSE)
+	sentenceList = sentenceEnders.split(paragraph)
+	return sentenceList
 
 def carrot2(key):
 	u=urlopen('http://search.carrot2.org/stable/search?query='+key+'&results=100&source=web&algorithm=lingo&view=folders&skin=fancy-compact&EToolsDocumentSource.language=ALL&EToolsDocumentSource.country=ALL&EToolsDocumentSource.safeSearch=false&type=CLUSTERS&_=1361291851804')
