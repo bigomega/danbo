@@ -27,7 +27,7 @@ def hello():
 		links.append(link)
 	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
 	sentences = splitParagraphIntoSentences(parsedData)
-	html = links + "<br><br>" + sentences
+	html = str(links) + "<br><br>" + str(sentences)
 	return html
 
 @app.route("/test")
