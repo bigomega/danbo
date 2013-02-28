@@ -11,12 +11,33 @@ env = Environment(loader=PackageLoader('server', 'templates'))
 @app.route("/")
 def index():
 	return "<center><br><br><br>\
+	 <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>\
+	 <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js'></script>\
+	 <link href='http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css' rel='stylesheet'>\
 	<input type='text' id='key' placeholder='enter key word'/><br><br>\
-	<button onclick='window.location=\"/wiki?key=\"+document.getElementById(\"key\").value'>Generate</button>"
+	<button class='btn' onclick='window.location=\"/wiki?key=\"+document.getElementById(\"key\").value'>Generate</button>"
 
 @app.route("/wiki")
 def hello():
 	string = ""
+	html = ""
+	key= request.args.get('key','',type=str) or "java"
+	data = wikiData(key).encode('utf-8')
+	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
+	sentences = splitParagraphIntoSentences(parsedData)
+	html = "\
+				<link href='http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css' rel='stylesheet'>\
+				<h3>Statements</h3>\
+				<table class='table table-bordered table-hover'><tr><th>No.</th><th>sentence</th></td></tr>"
+	i=1
+	for sentence in sentences:
+		html += "<tr><td>" + str(i) + "</td><td>" + sentence + "</td></tr>"
+		i += 1
+	html += "</table>"
+	return html
+
+@app.route("/keys")
+def keys():
 	html = ""
 	key= request.args.get('key','',type=str) or "java"
 	data = wikiData(key).encode('utf-8')
@@ -25,9 +46,14 @@ def hello():
 	for link in regExLinks:
 		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
 		links.append(link)
-	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
-	sentences = splitParagraphIntoSentences(parsedData)
-	html = str(links) + "<br><br>" + str(sentences)
+	html = "\
+				<link href='http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css' rel='stylesheet'>\
+				<h3>Key Words</h3>\
+				<table class='table table-bordered table-hover'><tr><th>No.</th><th>key term</th></td></tr>"
+	i=1
+	for link in links:
+		html += "<tr><td>" + str(i) + "</td><td>" + link + "</td></tr>"
+		i += 1
 	return html
 
 @app.route("/test")
