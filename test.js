@@ -26,6 +26,7 @@ function parseWikitext(content){
 	while(parsed.search(/{{/g)!=-1) {
 		parsed = parsed.replace(/{{[^{}}]*}}/g,"");
 	}
+	parsed = parsed.replace(/==.*==/g, "");
 
 	return parsed;
 }

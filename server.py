@@ -23,6 +23,11 @@ def hello():
 	html = ""
 	key= request.args.get('key','',type=str) or "java"
 	data = wikiData(key).encode('utf-8')
+	links = []
+	regExLinks = re.findall(r'\[\[[^\]\]|^\[\[]*\]\]', data, re.M|re.I)
+	for link in regExLinks:
+		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
+		links.append(link)
 	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
 	sentences = splitParagraphIntoSentences(parsedData)
 	html = "\
@@ -42,7 +47,8 @@ def keys():
 	key= request.args.get('key','',type=str) or "java"
 	data = wikiData(key).encode('utf-8')
 	links = []
-	regExLinks = re.findall(r'\[\[[^\]\]]*\]\]', data, re.M|re.I) #gets the links
+	regExLinks = re.findall(r'\[\[[^\]\]|^\[\[]*\]\]', data, re.M|re.I) #gets the links
+	# return str(regExLinks)
 	for link in regExLinks:
 		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
 		links.append(link)
@@ -114,7 +120,7 @@ def wikiData(key):
 	maxattempts = 5 # how many times to try the request before giving up
 	maxlag = 5 # seconds http://www.mediawiki.org/wiki/Manual:Maxlag_parameter
 	params = dict(action="query", format="xml", maxlag=maxlag, prop="revisions", rvprop="content", titles=title)
-	request = urllib2.Request("http://en.wikipedia.org/w/api.php?" + urllib.urlencode(params), headers={"User-Agent": "WikiDownloader/1.2","Referer": "http://stackoverflow.com/"})
+	request = urllib2.Request("http://en.wikipedia.org/w/api.php?" + urllib.urlencode(params), headers={"User-Agent": "WikiDownloader/1.2","Referer": ""})
 	# make request
 	for _ in range(maxattempts):
 		response = urllib2.urlopen(request)
