@@ -37,7 +37,7 @@
 
 <div class="navbar navbar-inverse">
   <div class="navbar-inner">
-    <a class="brand" href="#">Danbo</a>
+    <a class="brand" href="./index.php">Danbo</a>
     <ul class="nav">
       <li class="active"><a href="./index.php">Home</a></li>
       <li><a href="./score.php">Scores</a></li>

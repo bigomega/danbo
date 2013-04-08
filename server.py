@@ -31,12 +31,12 @@ def hello():
 	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
 	sentences = splitParagraphIntoSentences(parsedData)
 	html = "\
-				<link href='http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css' rel='stylesheet'>\
-				<h3>Statements</h3>\
-				<table class='table table-bordered table-hover'><tr><th>No.</th><th>sentence</th></td></tr>"
+				<table class='table table-bordered table-hover span12'><tr><th class='span1'>No.</th><th>sentence</th><th class='span2'>Score</th></tr>"
 	i=1
 	for sentence in sentences:
-		html += "<tr><td>" + str(i) + "</td><td>" + sentence + "</td></tr>"
+		pass
+		html += "<tr><td>" + str(i) + "</td><td>" + sentence + "</td><td>Yes</td></tr>\
+				<tr><td></td><td><input class='input span12'/></td></tr>"
 		i += 1
 	html += "</table>"
 	return html

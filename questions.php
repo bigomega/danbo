@@ -6,17 +6,6 @@
 .navbar-inner{
 	border-radius: 0px;
 }
-form{
-	padding: 20px;
-	border: 1px solid #ccc;
-	border-radius: 10px;
-}
-span{
-	position: relative;
-	top: 10px;
-	left: 25px;
-	background: #fff;
-}
 </style>
 
 <div class="navbar navbar-inverse">
@@ -37,15 +26,37 @@ span{
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span8 offset2">
-			<h1>Danbo</h1>
+			<h3>Topic</h3>
 			<div class="row-fluid">
-				<span>&nbsp;Search Query&nbsp;</span>
-				<form class="form-search">
-					<div class="input-append">
-						<input class="span12 search-query" id="appendedInputButton" type="text" placeholder="java, mythology, etc.">
-						<button class="btn" type="button">Search!</button>
-					</div>
-				</form>
+				<table class="table span12">
+					<tr>
+						<th class="span1">No.</th>
+						<th>Questions</th>
+						<th class="span2">Score</th>
+					</tr>
+					<tr>
+						<td>1.</td>
+						<td>Lets say this is qurduitna eogr?</td>
+						<td>yes</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<input class="input span12">
+						</td>
+					</tr>
+					<tr>
+						<td>2.</td>
+						<td>Lets say this is qurduitna eogr?</td>
+						<td>No</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<input class="input span12">
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
