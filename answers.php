@@ -64,11 +64,11 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 						</tr>
 
 	<?php
-	foreach ($answers as $i => $answer) {
+	foreach ($answers as $i => $answerU) {
 		$given = strtolower($_POST["q".$i]);
-		$answer = strtolower($answer);
+		$answer = strtolower($answerU);
 
-		echo '<tr><td>'.($i+1).'</td><td>'.$given.'</td><td>'.$answer;
+		echo '<tr><td>'.($i+1).'</td><td>'.$given.'</td><td>'.$answerU;
 
 		$percent = (strlen($answer)-levenshtein($answer, $given))/strlen($answer);
 

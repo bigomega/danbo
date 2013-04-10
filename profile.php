@@ -1,28 +1,33 @@
 <?php
 // $data=file_get_contents('./db.json');
 // echo $data;
-
-$data = file_get_contents('http://localhost:5000/keys?key=java');
-$links = json_decode($data);
-json_last_error();
-// echo $links;
-
-$data = file_get_contents('http://localhost:5000/wiki?key=java');
-$senteces = json_decode($data);
-json_last_error();
-// echo $senteces;
-
-foreach ($senteces as $key => $sentece) {
-	foreach ($links as $key2 => $link) {
-		if ((strpos($sentece,' '.$link.' ') !== false) || (strpos($sentece,' '.$link.'.') !== false) || (strpos($sentece,' '.$link.',') !== false) || (strpos($sentece,' '.$link.'\'') !== false) || (strpos($sentece, $link.' ') !== false)) {
-	    $que = str_replace( (string)$link, ' _________ ', $sentece);
-	    echo $key.') - '.rtrim($que, '.').'?<br/>';
-	    break;
-		}
-	}
+function checkRemoteFile($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+    // don't download content
+    curl_setopt($ch, CURLOPT_NOBODY, 1);
+    curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    if(curl_exec($ch)!==FALSE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+ 		}
 }
 
+$img = 'http://www.hoax-slayer.com/images/worlds-strongest-dog.jpg';
+$goo = 'http://www.google.com/';
 
+echo getimagesize($img);
+
+if(checkRemoteFile($img))
+	echo "yes".$img;
+if(checkRemoteFile($goo))
+	echo "NO".$goo;
 
 exit();
 ?>

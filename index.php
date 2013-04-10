@@ -11,17 +11,30 @@
 .row-fluid{
 	margin-bottom: 20px;
 }
+.brand img{
+	width: 30px;
+	position: relative;
+	top: -2px;
+	margin-right: 5px;
+}
+.brand:hover{
+	text-shadow: 0px 0px 5px;
+}
 </style>
 
 <div class="navbar navbar-inverse">
   <div class="navbar-inner">
-    <a class="brand" href="#">Danbo</a>
+    <a class="brand" href="#">
+    	<img src="./danbo.png">
+    	Danbo
+    </a>
     <ul class="nav">
       <li class="active"><a href="./index.php">Home</a></li>
       <li><a href="./score.php">Scores</a></li>
       <li><a href="./random.php">Random Set</a></li>
     </ul>
     <ul class="nav pull-right">
+      <li><a href="./about.php">About</a></li>
       <li><a href="./profile.php">Profile</a></li>
     </ul>
   </div>

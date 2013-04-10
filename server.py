@@ -3,7 +3,7 @@ from jinja2 import Environment, PackageLoader
 from urllib import urlopen
 from bs4 import BeautifulSoup
 import xml.etree.cElementTree as etree
-import sys, time, json, socket, urllib2, re, requests
+import sys, time, json, socket, urllib2, re, requests, collections
 
 app = Flask(__name__)
 env = Environment(loader=PackageLoader('server', 'templates'))
@@ -18,33 +18,19 @@ def index():
 	<button class='btn' onclick='window.location=\"/wiki?key=\"+document.getElementById(\"key\").value'>Generate</button>"
 
 @app.route("/wiki")
-def hello():
-	string = ""
-	html = ""
-	key= request.args.get('key','',type=str) or "java"
-	data = wikiData(key).encode('utf-8')
-	links = []
-	regExLinks = re.findall(r'\[\[[^\]\]|^\[\[]*\]\]', data, re.M|re.I)
-	for link in regExLinks:
-		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
-		links.append(link)
+def wiki():
+	key = request.args.get('key','',type=str) or "java"
+	data = wikiData(key)
+	if(type(data) is str and data == ""):
+		return Response(json.dumps(["NO DATA"]), mimetype='application/json')
+	data = data.encode('utf-8')
 	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
 	sentences = splitParagraphIntoSentences(parsedData)
-	html = "\
-				<table class='table table-bordered table-hover span12'><tr><th class='span1'>No.</th><th>sentence</th><th class='span2'>Score</th></tr>"
-	i=1
-	for sentence in sentences:
-		pass
-		html += "<tr><td>" + str(i) + "</td><td>" + sentence + "</td><td>Yes</td></tr>\
-				<tr><td></td><td><input class='input span12'/></td></tr>"
-		i += 1
-	html += "</table>"
 	return Response(json.dumps(sentences), mimetype='application/json')
 
 @app.route("/keys")
 def keys():
-	html = ""
-	key= request.args.get('key','',type=str) or "java"
+	key = request.args.get('key','',type=str) or "java"
 	data = wikiData(key).encode('utf-8')
 	links = []
 	regExLinks = re.findall(r'\[\[[^\]\]|^\[\[]*\]\]', data, re.M|re.I) #gets the links
@@ -52,24 +38,35 @@ def keys():
 	for link in regExLinks:
 		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
 		links.append(link)
-	html = "\
-				<link href='http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css' rel='stylesheet'>\
-				<h3>Key Words</h3>\
-				<table class='table table-bordered table-hover'><tr><th>No.</th><th>key term</th></td></tr>"
-	i=1
-	for link in links:
-		html += "<tr><td>" + str(i) + "</td><td>" + link + "</td></tr>"
-		i += 1
 	return Response(json.dumps(sorted(set(links))), mimetype='application/json')
 
 # @app.route("/newUser", methods)
 
 @app.route("/oauth", methods=['POST'])
-def user():
+def oauth():
 	uname = str(request.form['user'])
 	upass = str(request.form['pass'])
 	db = json.loads(open('./db.json').read())
 	return uname+upass+'---'
+
+@app.route("/spell")
+def spell():
+	word = request.args.get('word','',type=str) or "apple"
+	alphabet = 'abcdefghijklmnopqrstuvwxyz'
+	def edits1(word):
+		splits     = [(word[:i], word[i:]) for i in range(len(word) + 1)]
+		deletes    = [a + b[1:] for a, b in splits if b]
+		transposes = [a + b[1] + b[0] + b[2:] for a, b in splits if len(b)>1]
+		replaces   = [a + c + b[1:] for a, b in splits for c in alphabet if b]
+		inserts    = [a + c + b     for a, b in splits for c in alphabet]
+		return set(deletes + transposes + replaces + inserts)
+	def known_edits2(word):
+		return set(e2 for e1 in edits1(word) for e2 in edits1(e1) if e2 in NWORDS)
+	def known(words): return set(w for w in words if w in NWORDS)
+	def correct(word):
+		candidates = known([word]) or known(edits1(word)) or known_edits2(word) or [word]
+		return max(candidates, key=NWORDS.get)
+	return correct(word)
 
 @app.route("/test")
 def test():
@@ -110,6 +107,16 @@ def carrot2(key):
 		temp+="<li>"+word+"</li>"
 	return temp
 
+def words(text): return re.findall('[a-z]+', text.lower()) 
+
+def train(features):
+	model = collections.defaultdict(lambda: 1)
+	for f in features:
+		model[f] += 1
+	return model
+
+NWORDS = train(words(file('big.txt').read()))
+
 def wikiJSONData(key):
 	key = key or "java"
 	data = ""
@@ -141,7 +148,7 @@ def wikiData(key):
 		else:
 			break # ready to read
 	else: # exhausted all attempts
-		sys.exit(1)
+		return ""
 	# download & parse xml 
 	tree = etree.parse(response)
 	#
@@ -151,7 +158,7 @@ def wikiData(key):
 		print 'MediaWiki-API-Error:', response.headers.get('MediaWiki-API-Error')
 		tree.write(sys.stdout)
 		print
-		sys.exit(1)
+		return ""
 	return rev_data
 
 if __name__ == "__main__":
