@@ -76,3 +76,11 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$('.brand').mouseover(function(){
+	$('.brand img').attr('src','./danbo_flash.png');
+})
+$('.brand').mouseout(function(){
+	$('.brand img').attr('src','./danbo.png');
+})
+</script>
