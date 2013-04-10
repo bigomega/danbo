@@ -39,7 +39,7 @@ def hello():
 				<tr><td></td><td><input class='input span12'/></td></tr>"
 		i += 1
 	html += "</table>"
-	return html
+	return Response(json.dumps(sentences), mimetype='application/json')
 
 @app.route("/keys")
 def keys():
@@ -60,7 +60,16 @@ def keys():
 	for link in links:
 		html += "<tr><td>" + str(i) + "</td><td>" + link + "</td></tr>"
 		i += 1
-	return html
+	return Response(json.dumps(sorted(set(links))), mimetype='application/json')
+
+# @app.route("/newUser", methods)
+
+@app.route("/oauth", methods=['POST'])
+def user():
+	uname = str(request.form['user'])
+	upass = str(request.form['pass'])
+	db = json.loads(open('./db.json').read())
+	return uname+upass+'---'
 
 @app.route("/test")
 def test():
@@ -83,6 +92,7 @@ def splitParagraphIntoSentences(paragraph):
 			(?<!  Dr\.   )    
 			(?<!  Prof\. )    
 			(?<!  Sr\.   )    
+			(?<! B\.)
 			\s+               
 			""", 
 		re.IGNORECASE | re.VERBOSE)

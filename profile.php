@@ -1,3 +1,33 @@
+<?php
+// $data=file_get_contents('./db.json');
+// echo $data;
+
+$data = file_get_contents('http://localhost:5000/keys?key=java');
+$links = json_decode($data);
+json_last_error();
+// echo $links;
+
+$data = file_get_contents('http://localhost:5000/wiki?key=java');
+$senteces = json_decode($data);
+json_last_error();
+// echo $senteces;
+
+foreach ($senteces as $key => $sentece) {
+	foreach ($links as $key2 => $link) {
+		if ((strpos($sentece,' '.$link.' ') !== false) || (strpos($sentece,' '.$link.'.') !== false) || (strpos($sentece,' '.$link.',') !== false) || (strpos($sentece,' '.$link.'\'') !== false) || (strpos($sentece, $link.' ') !== false)) {
+	    $que = str_replace(' '.$link.' ', ' _________ ', $sentece);
+	    echo $key.') - '.rtrim($que, '.').'?<br/>';
+	    break;
+		}
+	}
+}
+
+
+
+exit();
+?>
+
+
 <link href='bootstrap.css' rel='stylesheet'>
 <script src='jquery.js'></script>
 <script src='jquery-ui.js'></script>
