@@ -49,25 +49,6 @@ def oauth():
 	db = json.loads(open('./db.json').read())
 	return uname+upass+'---'
 
-@app.route("/spell")
-def spell():
-	word = request.args.get('word','',type=str) or "apple"
-	alphabet = 'abcdefghijklmnopqrstuvwxyz'
-	def edits1(word):
-		splits     = [(word[:i], word[i:]) for i in range(len(word) + 1)]
-		deletes    = [a + b[1:] for a, b in splits if b]
-		transposes = [a + b[1] + b[0] + b[2:] for a, b in splits if len(b)>1]
-		replaces   = [a + c + b[1:] for a, b in splits for c in alphabet if b]
-		inserts    = [a + c + b     for a, b in splits for c in alphabet]
-		return set(deletes + transposes + replaces + inserts)
-	def known_edits2(word):
-		return set(e2 for e1 in edits1(word) for e2 in edits1(e1) if e2 in NWORDS)
-	def known(words): return set(w for w in words if w in NWORDS)
-	def correct(word):
-		candidates = known([word]) or known(edits1(word)) or known_edits2(word) or [word]
-		return max(candidates, key=NWORDS.get)
-	return correct(word)
-
 @app.route("/test")
 def test():
 	u=urlopen('http://search.carrot2.org/stable/search?query=java&results=100&source=web&algorithm=lingo&view=folders&skin=fancy-compact&EToolsDocumentSource.language=ALL&EToolsDocumentSource.country=ALL&EToolsDocumentSource.safeSearch=false&type=CLUSTERS&_=1361291851804')
@@ -106,16 +87,6 @@ def carrot2(key):
 	for word in words:
 		temp+="<li>"+word+"</li>"
 	return temp
-
-def words(text): return re.findall('[a-z]+', text.lower()) 
-
-def train(features):
-	model = collections.defaultdict(lambda: 1)
-	for f in features:
-		model[f] += 1
-	return model
-
-NWORDS = train(words(file('big.txt').read()))
 
 def wikiJSONData(key):
 	key = key or "java"
