@@ -1,3 +1,5 @@
+<link rel="shortcut icon" type="image/png" href="./favicon.png">
+<title>Danbo ScoreCard</title>
 <link href='bootstrap.css' rel='stylesheet'>
 <script src='jquery.js'></script>
 <script src='jquery-ui.js'></script>

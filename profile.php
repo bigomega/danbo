@@ -15,7 +15,7 @@ json_last_error();
 foreach ($senteces as $key => $sentece) {
 	foreach ($links as $key2 => $link) {
 		if ((strpos($sentece,' '.$link.' ') !== false) || (strpos($sentece,' '.$link.'.') !== false) || (strpos($sentece,' '.$link.',') !== false) || (strpos($sentece,' '.$link.'\'') !== false) || (strpos($sentece, $link.' ') !== false)) {
-	    $que = str_replace(' '.$link.' ', ' _________ ', $sentece);
+	    $que = str_replace( (string)$link, ' _________ ', $sentece);
 	    echo $key.') - '.rtrim($que, '.').'?<br/>';
 	    break;
 		}
@@ -28,6 +28,8 @@ exit();
 ?>
 
 
+<link rel="shortcut icon" type="image/png" href="./favicon.png">
+<title>Danbo - Your Profile</title>
 <link href='bootstrap.css' rel='stylesheet'>
 <script src='jquery.js'></script>
 <script src='jquery-ui.js'></script>

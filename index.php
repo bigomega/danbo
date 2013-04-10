@@ -1,3 +1,5 @@
+<link rel="shortcut icon" type="image/png" href="./favicon.png">
+<title>Danbo - the ultra Knowledge tester</title>
 <link href='bootstrap.css' rel='stylesheet'>
 <script src='jquery.js'></script>
 <script src='jquery-ui.js'></script>
@@ -5,6 +7,9 @@
 <style type="text/css">
 .navbar-inner{
 	border-radius: 0px;
+}
+.row-fluid{
+	margin-bottom: 20px;
 }
 </style>
 
@@ -28,16 +33,32 @@
 		<div class="span8 offset2">
 			<h1>Start Here</h1>
 			<hr>
-			<div class="row-fluid">
-				<div class="span12">
-					<form class="form-search">
+			<form class="form-search" action="./questions.php" method="GET">
+				<div class="row-fluid">
+					<div class="span12">
 						<div class="input-append span12">
-							<input type="text" class="span6 offset2 search-query" placeholder="Java, Mango, etc...">
-							<button type="submit" class="btn">Search</button>
+							<input type="text" name="key" class="span6 offset2 search-query" placeholder="Mythology ,Java, Mango, etc..." style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;">
+							<button type="submit" class="btn btn-inverse">Search</button>
 						</div>
-					</form>
+					</div>
 				</div>
-			</div>
+				<div class="row-fluid">
+					<div class="span1 offset2" style="line-height: 30px;">Ask me</div>
+					<div class="span2" style="width: 60px;margin-left: 0px;">
+						<select class="span12" name="no">
+							<option>5</option>
+							<option selected="selected">10</option>
+							<option>15</option>
+							<option>20</option>
+							<option>25</option>
+							<option>30</option>
+							<option>35</option>
+							<option>40</option>
+						</select>
+					</div>
+					<div class="span1" style="line-height: 30px;margin-left: 5px;">Questions</div>
+				</div>
+			</form>
 			<hr>
 		</div>
 	</div>
