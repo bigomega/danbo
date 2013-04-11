@@ -34,6 +34,9 @@ a{
 a:hover{
   color: rgb(68, 37, 2);
 }
+img{
+	width: 50px;
+}
 </style>
 
 <div class="navbar navbar-inverse">
@@ -61,9 +64,18 @@ a:hover{
 			<h1>Danbo - the Ultra Knowledge tester </h1>
 			<div class="row-fluid">
 				<div class="span12 well">
+					<h3>About</h3>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Question and answering (QA) has been the primary method used for testing a person's knowledge on a variety of topics. But this question answering technique involves a lot of work to frame the questions and validating the answers. Automation of the QA is the primary goal of the project.</p>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We propose a system that gets the users interested field and frames a set of questions based on articles excerpted from certain trusted information providers over the Internet. Along with the queries, the answers to them are also retrieved. The user enters the answers and his answers are evaluated to give an aggregated score to judge his knowledge level on that particular domain.</p>
+					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wikipedia, the online encyclopaedia, has become the trusted source of information in almost all domains. It can be seen as a lexical semantic resource that includes knowledge about named entity and domain specific terms. It has been successfully applied in our paper for the generation of questions and validation of answers.</p>
 					<h3>Team</h3>
-					<a href="http://twitter.com/pradeepankmp" title="twitter">Pradeepan K</a><br>
-					<a href="http://facebook.com/dhineshns" title="facebook">Dhinesh N</a><br>
+					<img src="./pradeepan.jpeg">
+					<a href="http://twitter.com/pradeepankmp" title="twitter">Pradeepan K</a>
+					<br><br>
+					<img src="./dhinesh.jpg">
+					<a href="http://facebook.com/dhineshns" title="facebook">Dhinesh N</a>
+					<br><br>
+					<img src="./bharath.jpeg">
 					<a href="http://github.com/bigomega" title="github">Bharath R</a>
 				</div>
 			</div>
