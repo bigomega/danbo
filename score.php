@@ -1,3 +1,11 @@
+<?php
+	if (isset($_GET['logged'])) {
+		# code...
+	} else {
+		header('location: ./login.php');
+		exit();
+	}
+?>
 <link rel="shortcut icon" type="image/png" href="./favicon.png">
 <title>Danbo ScoreCard</title>
 <link href='bootstrap.css' rel='stylesheet'>
@@ -46,6 +54,7 @@
       <li><a href="./random.php">Random Set</a></li>
     </ul>
     <ul class="nav pull-right">
+      <li><a href="./about.php">About</a></li>
       <li><a href="./profile.php">Profile</a></li>
     </ul>
   </div>

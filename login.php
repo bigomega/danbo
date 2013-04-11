@@ -22,11 +22,12 @@
 }
 form{
 	border: 1px solid #ccc;
-	padding-top: 20px;
+	padding-left: 20px;
 	border-radius: 10px;
 }
-h1{
-	text-shadow: 4px 4px 6px rgba(0,0,0,0.4);
+h4{
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
 }
 </style>
 
@@ -37,7 +38,7 @@ h1{
     	Danbo
     </a>
     <ul class="nav">
-      <li class="active"><a href="./index.php">Home</a></li>
+      <li><a href="./index.php">Home</a></li>
       <li><a href="./score.php">Scores</a></li>
       <li><a href="./random.php">Random</a></li>
     </ul>
@@ -51,32 +52,16 @@ h1{
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span8 offset2">
-			<h1>Start Here</h1>
-			<form class="form-search" action="./questions.php" method="GET">
+		<div class="span6 offset3">
+			<h3>Please login to continue</h3>
+			<form class="form-search" action="./oauth.php" method="POST">
 				<div class="row-fluid">
 					<div class="span12">
-						<div class="input-append span12">
-							<input type="text" name="key" class="span6 offset2 search-query" placeholder="Mythology, Java, Mango, etc..." style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;">
-							<button type="submit" class="btn btn-inverse">Search</button>
+						<h4>This feature is yet to be implemented</h4>
+						<div>
+							April fool... Boooo!!! :D
 						</div>
 					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="span1 offset2" style="line-height: 30px;">Ask me</div>
-					<div class="span2" style="width: 60px;margin-left: 0px;">
-						<select class="span12" name="no">
-							<option>5</option>
-							<option selected="selected">10</option>
-							<option>15</option>
-							<option>20</option>
-							<option>25</option>
-							<option>30</option>
-							<option>35</option>
-							<option>40</option>
-						</select>
-					</div>
-					<div class="span1" style="line-height: 30px;margin-left: 5px;">Questions</div>
 				</div>
 			</form>
 		</div>

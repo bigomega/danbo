@@ -7,23 +7,36 @@ if(isset($_GET['key'])){
 	$no = 10;
 
 	if($keyWord == ''){
-	header('location: ./');
-	exit();
+		header('location: ./suggestion.php');
+		exit();
 	}
 
 	if(isset($_GET['no']))
 		$no = $_GET['no'];
 
-
-	$data = file_get_contents('http://localhost:5000/keys?key='.$keyWord);
-	$links = json_decode($data);
-	json_last_error();
+	if($no>40)
+		$no = 40;
 
 	$data = file_get_contents('http://localhost:5000/wiki?key='.$keyWord);
 	$sentences = json_decode($data);
 	json_last_error();
 
+	if($sentences[0] == "NO DATA" || strpos($sentences[0],'may refer to') !== false || strpos(strtolower($sentences[0]) , 'redirect') !== false){
+		if(strpos($sentences[0],'may refer to') !== false)
+			header('location: ./suggestion.php?key='.$keyWord.'&disamb=true');
+		elseif (strpos(strtolower($sentences[0]) , 'redirect') !== false) 
+			header('location: ./questions.php?key='.strtoupper($keyWord));
+		else
+			header('location: ./suggestion.php?key='.$keyWord);
+		exit();
+	}
+
+	$data = file_get_contents('http://localhost:5000/keys?key='.$keyWord);
+	$links = json_decode($data);
+	json_last_error();
+
 	$answers = array();
+	$questions = array();
 
 	?>
 	<link rel="shortcut icon" type="image/png" href="./favicon.png">
@@ -43,18 +56,26 @@ if(isset($_GET['key'])){
 	h3{
 		text-transform: capitalize;
 	}
+	.suggestion{
+	  border: 1px solid #ccc;
+	  border-radius: 10px;
+	}
+	h4{
+	  margin-left: 21px;
+	}
 	</style>
 
 	<div class="navbar navbar-inverse">
 	  <div class="navbar-inner">
 	    <a class="brand" href="./index.php">Danbo</a>
 	    <ul class="nav">
-	      <li class="active"><a href="./index.php">Home</a></li>
+	      <li><a href="./index.php">Home</a></li>
 	      <li><a href="./score.php">Scores</a></li>
-	      <li><a href="./random.php">Random Set</a></li>
+	      <li><a href="./random.php">Random</a></li>
 	    </ul>
 	    <ul class="nav pull-right">
-	      <li><a href="./profile.php">Profile</a></li>
+	      <li><a href="./about.php">About</a></li>
+      <li><a href="./profile.php">Profile</a></li>
 	    </ul>
 	  </div>
 	</div>
@@ -62,7 +83,7 @@ if(isset($_GET['key'])){
 
 	<div class="container-fluid">
 		<div class="row-fluid">
-			<div class="span8 offset2">
+			<div class="span8 offset1">
 				<form action="./answers.php?key=<?php echo $keyWord; ?>" method="POST">
 					<h3><?php echo $keyWord; ?></h3><input style="display:none;" type="text" name="no" value="<?php echo $no; ?>"/>
 					<div class="row-fluid">
@@ -88,15 +109,18 @@ if(isset($_GET['key'])){
 
 			if ((strpos($sentence,' '.$link.' ') !== false) || (strpos($sentence,' '.$link.'.') !== false) || (strpos($sentence,' '.$link.',') !== false) || (strpos($sentence,' '.$link.'\'') !== false) || (strpos($sentence, $link.' ') !== false)) {
 		    $que = str_replace( (string)$link, ' _________ ', $sentence);
+		    $sendingQue = str_replace((string)$link, '<b> '.$link.' </b>', $sentence);
 		    echo '<tr><td>'.($qno+1).'.</td><td>'.rtrim($que, '.').'?</td></tr><tr><td>Answer</td><td><input class="input span12" type="text" name="q'.$qno.'" id="q-'.$qno.'"/><hr/></td></tr>';
 				$qno ++;
 		    array_push($answers, $link);
+		    array_push($questions, $sendingQue);
 		    break;
 			}
 		}
 	}
 
 	$_SESSION['answers'] = $answers;
+	$_SESSION['questions'] = $questions;
 	?>
 						</table>
 					</div>
@@ -105,6 +129,18 @@ if(isset($_GET['key'])){
 					</div>
 				</form>
 			</div>
+			<div class="span3 suggestion">
+	      <h4>May also mean</h4>
+	      <ul>
+	        <?php
+					  $data = file_get_contents('http://localhost:5000/keys?key='.$keyWord.'_(disambiguation)');
+						$disamb = json_decode($data);
+		        foreach ($disamb as $i => $link) {
+		          echo "<li><a href='./questions.php?key=".str_replace( " ", '_', $link)."'>".$link."</a></li>";
+		        }
+	        ?>
+	      </ul>
+			</div>
 		</div>
 	</div>
 	
@@ -112,7 +148,7 @@ if(isset($_GET['key'])){
 	exit();
 }
 else{
-	header('location: ./');
+	header('location: ./suggestion.php');
 	exit();
 }
 

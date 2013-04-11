@@ -1,38 +1,11 @@
 <?php
-// $data=file_get_contents('./db.json');
-// echo $data;
-function checkRemoteFile($url)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,$url);
-    // don't download content
-    curl_setopt($ch, CURLOPT_NOBODY, 1);
-    curl_setopt($ch, CURLOPT_FAILONERROR, 1);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    if(curl_exec($ch)!==FALSE)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
- 		}
-}
-
-$img = 'http://www.hoax-slayer.com/images/worlds-strongest-dog.jpg';
-$goo = 'http://www.google.com/';
-
-echo getimagesize($img);
-
-if(checkRemoteFile($img))
-	echo "yes".$img;
-if(checkRemoteFile($goo))
-	echo "NO".$goo;
-
-exit();
+  if (isset($_GET['logged'])) {
+    # code...
+  } else {
+    header('location: ./login.php');
+    exit();
+  }
 ?>
-
-
 <link rel="shortcut icon" type="image/png" href="./favicon.png">
 <title>Danbo - Your Profile</title>
 <link href='bootstrap.css' rel='stylesheet'>
@@ -46,7 +19,7 @@ exit();
 span{
 	font-size: 20px;
 }
-img{
+img.profile_image{
 	width: 80px;
 }
 </style>
@@ -60,6 +33,7 @@ img{
       <li><a href="./random.php">Random Set</a></li>
     </ul>
     <ul class="nav pull-right">
+      <li><a href="./about.php">About</a></li>
       <li><a href="./profile.php">Profile</a></li>
     </ul>
   </div>
@@ -77,7 +51,7 @@ img{
 					<input type="text" value="User Name" style="display:none">
 					<br><br>
 					<span>Image: </span>
-					<img src="Url">
+					<img src="Url" class="profile_image">
 					<input type="text" value="Url" style="display:none">
 					<br><br>
 					<button class="btn btn-primary hide">Save</button>

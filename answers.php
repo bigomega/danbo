@@ -44,7 +44,8 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 	      <li><a href="./random.php">Random Set</a></li>
 	    </ul>
 	    <ul class="nav pull-right">
-	      <li><a href="./profile.php">Profile</a></li>
+	      <li><a href="./about.php">About</a></li>
+      <li><a href="./profile.php">Profile</a></li>
 	    </ul>
 	  </div>
 	</div>
@@ -67,8 +68,9 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 	foreach ($answers as $i => $answerU) {
 		$given = strtolower($_POST["q".$i]);
 		$answer = strtolower($answerU);
+		$fullAnswer = $_SESSION['questions'][$i];
 
-		echo '<tr><td>'.($i+1).'</td><td>'.$given.'</td><td>'.$answerU;
+		echo '<tr><td>'.($i+1).'</td><td>'.$given.'</td><td data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="hover" data-title="" data-content="'.$fullAnswer.'" data-container="body">'.$answerU;
 
 		$percent = (strlen($answer)-levenshtein($answer, $given))/strlen($answer);
 
@@ -83,7 +85,9 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 			</div>
 		</div>
 	</div>
-	
+	<script type="text/javascript">
+	$('td').popover();
+	</script>
 	<?php
 } else{
 	header('location: ./');
