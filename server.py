@@ -19,26 +19,32 @@ def index():
 
 @app.route("/wiki")
 def wiki():
-	key = request.args.get('key','',type=str) or "java"
-	data = wikiData(key)
-	if(type(data) is str and data == ""):
+	try:
+		key = request.args.get('key','',type=str) or "java"
+		data = wikiData(key)
+		if(type(data) is str and data == ""):
+			return Response(json.dumps(["NO DATA"]), mimetype='application/json')
+		data = data.encode('utf-8')
+		parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
+		sentences = splitParagraphIntoSentences(parsedData)
+		return Response(json.dumps(sentences), mimetype='application/json')
+	except:
 		return Response(json.dumps(["NO DATA"]), mimetype='application/json')
-	data = data.encode('utf-8')
-	parsedData = json.loads(requests.post("http://localhost:8888", data=data, proxies={'http':''}).text or "{'data': 'No Data'}")['data'].replace('\n','')
-	sentences = splitParagraphIntoSentences(parsedData)
-	return Response(json.dumps(sentences), mimetype='application/json')
 
 @app.route("/keys")
 def keys():
-	key = request.args.get('key','',type=str) or "java"
-	data = wikiData(key).encode('utf-8')
-	links = []
-	regExLinks = re.findall(r'\[\[[^\]\]|^\[\[]*\]\]', data, re.M|re.I) #gets the links
-	# return str(regExLinks)
-	for link in regExLinks:
-		link = re.findall(r'[^\[].*[^\]]', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
-		links.append(link)
-	return Response(json.dumps(sorted(set(links))), mimetype='application/json')
+	try:
+		key = request.args.get('key','',type=str) or "java"
+		data = wikiData(key).encode('utf-8')
+		links = []
+		regExLinks = re.findall(r'\[\[[^\]\]|^\[\[]*\]\]', data, re.M|re.I) #gets the links
+		# return str(regExLinks)
+		for link in regExLinks:
+			link = re.findall(r'[^\[^\]]+', link, re.M|re.I)[0].split('|')[-1].replace(r'&nbsp',' ')
+			links.append(link)
+		return Response(json.dumps(sorted(set(links))), mimetype='application/json')
+	except:
+		return Response(json.dumps(['']), mimetype='application/json')
 
 # @app.route("/newUser", methods)
 

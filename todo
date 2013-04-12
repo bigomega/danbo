@@ -1,4 +1,4 @@
-redirect handle
+handle exception in server py to send empty array(link) and NO DATA(wiki)
 random page space error %20 
 	http://localhost/danbo-proj/questions.php?key=Morgan_Freeman
 
