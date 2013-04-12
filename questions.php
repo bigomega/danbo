@@ -21,11 +21,13 @@ if(isset($_GET['key'])){
 	$sentences = json_decode($data);
 	json_last_error();
 
-	if($sentences[0] == "NO DATA" || strpos($sentences[0],'may refer to') !== false || strpos(strtolower($sentences[0]) , 'redirect') !== false){
+	if($sentences[0] == "NO DATA" || strpos($sentences[0],'may refer to') !== false || (strpos(strtolower($sentences[0]) , 'redirect') !== false && strpos(strtolower($sentences[0]) , 'redirect') < 5)){
 		if(strpos($sentences[0],'may refer to') !== false)
 			header('location: ./suggestion.php?key='.$keyWord.'&disamb=true');
-		elseif (strpos(strtolower($sentences[0]) , 'redirect') !== false) 
-			header('location: ./questions.php?key='.strtoupper($keyWord));
+		elseif (strpos(strtolower($sentences[0]) , 'redirect') !== false) {
+			$redirectKey = str_replace(" ", "_", trim(substr($sentences[0], strpos(strtolower($sentences[0]) , 'redirect')+8)));
+			header('location: ./questions.php?key='.$redirectKey);
+		}
 		else
 			header('location: ./suggestion.php?key='.$keyWord);
 		exit();
@@ -62,6 +64,12 @@ if(isset($_GET['key'])){
 	}
 	h4{
 	  margin-left: 21px;
+	}
+	a{
+	  color: rgb(143, 94, 41);
+	}
+	a:hover{
+	  color: rgb(68, 37, 2);
 	}
 	</style>
 

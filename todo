@@ -1,0 +1,7 @@
+redirect handle
+random page space error %20 
+	http://localhost/danbo-proj/questions.php?key=Morgan_Freeman
+
+login - page
+	==> scorecard
+	==> profile page

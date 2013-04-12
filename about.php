@@ -69,14 +69,20 @@ img{
 					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We propose a system that gets the users interested field and frames a set of questions based on articles excerpted from certain trusted information providers over the Internet. Along with the queries, the answers to them are also retrieved. The user enters the answers and his answers are evaluated to give an aggregated score to judge his knowledge level on that particular domain.</p>
 					<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wikipedia, the online encyclopaedia, has become the trusted source of information in almost all domains. It can be seen as a lexical semantic resource that includes knowledge about named entity and domain specific terms. It has been successfully applied in our paper for the generation of questions and validation of answers.</p>
 					<h3>Team</h3>
-					<img src="./pradeepan.jpeg">
-					<a href="http://twitter.com/pradeepankmp" title="twitter">Pradeepan K</a>
+					<a href="http://twitter.com/pradeepankmp" title="twitter">
+						<img src="./pradeepan.jpeg">
+						Pradeepan K
+					</a>
 					<br><br>
-					<img src="./dhinesh.jpg">
-					<a href="http://facebook.com/dhineshns" title="facebook">Dhinesh N</a>
+					<a href="http://facebook.com/dhineshns" title="facebook">
+						<img src="./dhinesh.jpg">
+						Dhinesh N
+					</a>
 					<br><br>
-					<img src="./bharath.jpeg">
-					<a href="http://github.com/bigomega" title="github">Bharath R</a>
+					<a href="http://github.com/bigomega" title="github">
+						<img src="./bharath.jpeg">
+						Bharath R
+					</a>
 				</div>
 			</div>
 		</div>

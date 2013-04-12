@@ -57,7 +57,7 @@ h1{
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="input-append span12">
-							<input type="text" name="key" class="span6 offset2 search-query" placeholder="Mythology, Java, Mango, etc..." style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;">
+							<input id="key" type="text" name="key" class="span6 offset2 search-query" placeholder="Mythology, Java, Mango, etc..." style="border-bottom-left-radius: 0px;border-top-left-radius: 0px;">
 							<button type="submit" class="btn btn-inverse">Search</button>
 						</div>
 					</div>
@@ -85,8 +85,9 @@ h1{
 <script type="text/javascript">
 $('.brand').mouseover(function(){
 	$('.brand img').attr('src','./danbo_flash.png');
-})
+});
 $('.brand').mouseout(function(){
 	$('.brand img').attr('src','./danbo.png');
-})
+});
+$("#key").unbind('keyup').keyup(function(ev){$(this).val($(this).val().replace(/ /g,"_"))});
 </script>
