@@ -41,8 +41,9 @@ if(isset($_GET['key'])){
 	$questions = array();
 
 	?>
+	<meta charset="UTF-8" />
 	<link rel="shortcut icon" type="image/png" href="./favicon.png">
-	<title>Danbo - Questions on <?php echo $keyWord; ?></title>
+	<title>Danbo - Questions on <?php echo str_replace("_", " ", $keyWord); ?></title>
 	<link href='bootstrap.css' rel='stylesheet'>
 	<script src='jquery.js'></script>
 	<script src='jquery-ui.js'></script>
@@ -75,7 +76,10 @@ if(isset($_GET['key'])){
 
 	<div class="navbar navbar-inverse">
 	  <div class="navbar-inner">
-	    <a class="brand" href="./index.php">Danbo</a>
+	    <a class="brand" href="./index.php">
+	    	<img src="./danbo.png">
+	    	Danbo
+	    </a>
 	    <ul class="nav">
 	      <li><a href="./index.php">Home</a></li>
 	      <li><a href="./score.php">Scores</a></li>
@@ -93,7 +97,7 @@ if(isset($_GET['key'])){
 		<div class="row-fluid">
 			<div class="span8 offset1">
 				<form action="./answers.php?key=<?php echo $keyWord; ?>" method="POST">
-					<h3><?php echo $keyWord; ?></h3><input style="display:none;" type="text" name="no" value="<?php echo $no; ?>"/>
+					<h3><?php echo str_replace("_", " ", $keyWord); ?></h3><input style="display:none;" type="text" name="no" value="<?php echo $no; ?>"/>
 					<div class="row-fluid">
 						<table class='table table-bordered table-hover span12'>
 							<tr>
@@ -151,6 +155,15 @@ if(isset($_GET['key'])){
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+	$('.brand').mouseover(function(){
+		$('.brand img').attr('src','./danbo_flash.png');
+	});
+	$('.brand').mouseout(function(){
+		$('.brand img').attr('src','./danbo.png');
+	});
+	$("#key").unbind('keyup').keyup(function(ev){$(this).val($(this).val().replace(/ /g,"_"))});
+	</script>
 	
 	<?php
 	exit();

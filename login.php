@@ -23,6 +23,7 @@
 form{
 	border: 1px solid #ccc;
 	padding-left: 20px;
+	padding-top: 20px;
 	border-radius: 10px;
 }
 h4{
@@ -52,15 +53,59 @@ h4{
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span6 offset3">
-			<h3>Please login to continue</h3>
-			<form class="form-search" action="./oauth.php" method="POST">
+		<div class="span4 offset4">
+			<h3>Please login/register to continue</h3>
+			<form action="./oauth/" method="POST" id="form1">
+				<div class="row-fluid">
+					<div class="span4">
+						User Name:
+					</div>
+					<input type="text" class="input span8" name="user" />
+				</div>
+				<div class="row-fluid">
+					<div class="span4">
+						Password: 
+					</div>
+					<input type="text" class="input span8" name="pass" />
+				</div>
+				<div class="row-fluid">
+					<div class="span4 offset4">
+						<input type="submit" name="login" value="Login" class="btn btn-inverse">
+					</div>
+				</div>
 				<div class="row-fluid">
 					<div class="span12">
-						<h4>This feature is yet to be implemented</h4>
-						<div>
-							April fool... Boooo!!! :D
-						</div>
+						<a href="javascript:void(0);" class="registerLogin">or Register here</a> if you are new
+					</div>
+				</div>
+			</form>
+			<form action="./oauth/create.php" method="POST" class="hide" id="form2">
+				<div class="row-fluid">
+					<div class="span4">
+						User Name:
+					</div>
+					<input type="text" class="input span8" name="user" />
+				</div>
+				<div class="row-fluid">
+					<div class="span4">
+						Password: 
+					</div>
+					<input type="text" class="input span8" name="pass" />
+				</div>
+				<div class="row-fluid">
+					<div class="span4">
+						Confirm Password: 
+					</div>
+					<input type="text" class="input span8" name="pass-confirm" />
+				</div>
+				<div class="row-fluid">
+					<div class="span4 offset4">
+						<input type="submit" name="login" value="Register" class="btn btn-inverse">
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span12">
+						<a href="javascript:void(0);" class="registerLogin">or Login here</a> if you are already a member
 					</div>
 				</div>
 			</form>
@@ -70,8 +115,13 @@ h4{
 <script type="text/javascript">
 $('.brand').mouseover(function(){
 	$('.brand img').attr('src','./danbo_flash.png');
-})
+});
 $('.brand').mouseout(function(){
 	$('.brand img').attr('src','./danbo.png');
-})
+});
+
+$(".registerLogin").click(function(){
+	$("#form1").slideToggle(500);
+	$("#form2").slideToggle(500);
+});
 </script>

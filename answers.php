@@ -8,6 +8,7 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 	$answers = $_SESSION['answers'];
 	?>
 
+	<meta charset="UTF-8" />
 	<link rel="shortcut icon" type="image/png" href="./favicon.png">
 	<title>Danbo - Answers for <?php echo $keyWord; ?></title>
 	<link href='bootstrap.css' rel='stylesheet'>
@@ -37,7 +38,10 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 
 	<div class="navbar navbar-inverse">
 	  <div class="navbar-inner">
-	    <a class="brand" href="./index.php">Danbo</a>
+	    <a class="brand" href="./index.php">
+	    	<img src="./danbo.png">
+	    	Danbo
+	    </a>
 	    <ul class="nav">
 	      <li class="active"><a href="./index.php">Home</a></li>
 	      <li><a href="./score.php">Scores</a></li>
@@ -85,6 +89,15 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+	$('.brand').mouseover(function(){
+		$('.brand img').attr('src','./danbo_flash.png');
+	});
+	$('.brand').mouseout(function(){
+		$('.brand img').attr('src','./danbo.png');
+	});
+	$("#key").unbind('keyup').keyup(function(ev){$(this).val($(this).val().replace(/ /g,"_"))});
+	</script>
 	<script type="text/javascript">
 	$('td').popover();
 	</script>

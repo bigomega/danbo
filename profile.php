@@ -1,6 +1,6 @@
 <?php
   if (isset($_GET['logged'])) {
-    # code...
+    echo "You are fucking awesome";
   } else {
     header('location: ./login.php');
     exit();
