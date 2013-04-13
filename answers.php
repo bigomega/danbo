@@ -23,6 +23,15 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 		overflow: scroll;
 		text-overflow: ellipsis;
 	}
+	.brand img{
+		width: 30px;
+		position: relative;
+		top: -2px;
+		margin-right: 5px;
+	}
+	.brand:hover{
+		text-shadow: 0px 0px 5px;
+	}
 	h3{
 		text-transform: capitalize;
 	}
@@ -69,6 +78,8 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 						</tr>
 
 	<?php
+	$score = 0;
+	$total = count($answers);
 	foreach ($answers as $i => $answerU) {
 		$given = strtolower($_POST["q".$i]);
 		$answer = strtolower($answerU);
@@ -78,11 +89,15 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 
 		$percent = (strlen($answer)-levenshtein($answer, $given))/strlen($answer);
 
-		if($percent > 0.8)
+		if($percent > 0.8){
 			echo '</td><td class="correct">Correct</td></tr>';
-		else
+			$score ++;
+		}
+		else{
 			echo '</td><td class="wrong">Wrong</td></tr>';
+		}
 	}
+	unset($_SESSION['answers']);
 	?>
 					</table>
 				</div>
@@ -100,6 +115,23 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 	</script>
 	<script type="text/javascript">
 	$('td').popover();
+	</script>
+	<script type="text/javascript">
+	 $.ajax({
+	 	url:'./oauth/update.php',
+	 	type: 'GET',
+	 	data: {
+	 		key: "<?php echo $keyWord;?>",
+	 		score: "<?php echo $score;?>",
+	 		total: "<?php echo $total;?>"
+	 	},
+	 	success:function(){
+	 		console.log('success');
+	 	},
+	 	error: function(){
+	 		console.log('error');
+	 	}
+	 });
 	</script>
 	<?php
 } else{

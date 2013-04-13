@@ -37,6 +37,11 @@ a:hover{
 img{
 	width: 50px;
 }
+img.deva{
+	width: 100px;
+	position: absolute;
+	margin-left: 570px;
+}
 </style>
 
 <div class="navbar navbar-inverse">
@@ -73,6 +78,7 @@ img{
 						<img src="./pradeepan.jpeg">
 						Pradeepan K
 					</a>
+					<img src="./deva_dance.gif" class="deva"/>
 					<br><br>
 					<a href="http://facebook.com/dhineshns" title="facebook">
 						<img src="./dhinesh.jpg">

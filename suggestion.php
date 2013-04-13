@@ -1,7 +1,7 @@
 <?php
 
 $key = "";
-$mock = array("monster", "dragon", "dongle", "null", "zero", "wizard", "gandalf", "snape", "oracle", "dexter", "Morgan Freeman", "scientist");
+$mock = array("Chuck Norris");
 $suggestion = $mock[rand()%sizeof($mock)];
 
 if(isset($_GET['key']) && $_GET['key']!=""){

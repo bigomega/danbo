@@ -1,3 +1,9 @@
+<?php
+  if (isset($_GET['logged'])) {
+    header('location: ./profile.php');
+    exit();
+  }
+?>
 <link rel="shortcut icon" type="image/png" href="./favicon.png">
 <title>Danbo - the ultra Knowledge tester</title>
 <link href='bootstrap.css' rel='stylesheet'>
@@ -53,50 +59,62 @@ h4{
 
 <div class="container-fluid">
 	<div class="row-fluid">
-		<div class="span4 offset4">
+		<div class="span6 offset3">
 			<h3>Please login/register to continue</h3>
 			<form action="./oauth/" method="POST" id="form1">
 				<div class="row-fluid">
-					<div class="span4">
+					<div class="span2 offset1">
 						User Name:
 					</div>
-					<input type="text" class="input span8" name="user" />
+					<input type="text" class="input span6" name="user" />
 				</div>
 				<div class="row-fluid">
-					<div class="span4">
+					<div class="span2 offset1">
 						Password: 
 					</div>
-					<input type="text" class="input span8" name="pass" />
+					<input type="text" class="input span6" name="pass" />
+					<div class="span3 pull-right">
+						<a href="javascript:alert('sorry!!!\nno can do babydoll')">forgot password?</a>
+					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span4 offset4">
+					<div class="span2 offset4">
 						<input type="submit" name="login" value="Login" class="btn btn-inverse">
 					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span12">
-						<a href="javascript:void(0);" class="registerLogin">or Register here</a> if you are new
+					<div class="span10 offset2">
+						or <a href="javascript:void(0);" class="registerLogin">Register here</a> if you are new
 					</div>
 				</div>
 			</form>
 			<form action="./oauth/create.php" method="POST" class="hide" id="form2">
 				<div class="row-fluid">
-					<div class="span4">
+					<div class="span2 offset1">
 						User Name:
 					</div>
-					<input type="text" class="input span8" name="user" />
+					<input type="text" class="input span6" name="user" />
+					<div class="span3 pull-right" id="userPresent">
+						...
+					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span4">
+					<div class="span2 offset1">
 						Password: 
 					</div>
-					<input type="text" class="input span8" name="pass" />
+					<input type="text" class="input span6" name="pass" />
+					<div class="span3 pull-right">
+						...
+					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span4">
+					<div class="span2 offset1">
 						Confirm Password: 
 					</div>
-					<input type="text" class="input span8" name="pass-confirm" />
+					<input type="text" class="input span6" name="pass-confirm" />
+					<div class="span3 pull-right">
+						match
+					</div>
 				</div>
 				<div class="row-fluid">
 					<div class="span4 offset4">
@@ -104,8 +122,8 @@ h4{
 					</div>
 				</div>
 				<div class="row-fluid">
-					<div class="span12">
-						<a href="javascript:void(0);" class="registerLogin">or Login here</a> if you are already a member
+					<div class="span10 offset2">
+						or <a href="javascript:void(0);" class="registerLogin">Login here</a> if you are already a member
 					</div>
 				</div>
 			</form>

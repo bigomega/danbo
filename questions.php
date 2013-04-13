@@ -56,6 +56,15 @@ if(isset($_GET['key'])){
 		overflow: scroll;
 		text-overflow: ellipsis;
 	}
+	.brand img{
+		width: 30px;
+		position: relative;
+		top: -2px;
+		margin-right: 5px;
+	}
+	.brand:hover{
+		text-shadow: 0px 0px 5px;
+	}
 	h3{
 		text-transform: capitalize;
 	}
