@@ -135,7 +135,7 @@ if(isset($_GET['key'])){
 			if ((strpos($sentence,' '.$link.' ') !== false) || (strpos($sentence,' '.$link.'.') !== false) || (strpos($sentence,' '.$link.',') !== false) || (strpos($sentence,' '.$link.'\'') !== false) || (strpos($sentence, $link.' ') !== false)) {
 		    $que = str_replace( (string)$link, ' _________ ', $sentence);
 		    $sendingQue = str_replace((string)$link, '<b> '.$link.' </b>', $sentence);
-		    echo '<tr><td>'.($qno+1).'.</td><td>'.rtrim($que, '.').'?</td></tr><tr><td>Answer</td><td><input class="input span12" type="text" name="q'.$qno.'" id="q-'.$qno.'"/><hr/></td></tr>';
+		    echo '<tr><td>'.($qno+1).'.</td><td>'.rtrim($que, '.').'</td></tr><tr><td>Answer</td><td><input class="input span12" type="text" name="q'.$qno.'" id="q-'.$qno.'"/><hr/></td></tr>';
 				$qno ++;
 		    array_push($answers, $link);
 		    array_push($questions, $sendingQue);

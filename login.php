@@ -36,6 +36,13 @@ h4{
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 5px;
 }
+#strength{
+	background-color: #fff;
+	border-radius: 15px;
+	padding-top: 6px;
+	padding-left: 10px;
+	margin-right: 10px;
+}
 </style>
 
 <div class="navbar navbar-inverse">
@@ -103,7 +110,7 @@ h4{
 						Password: 
 					</div>
 					<input type="password" class="input span6" name="pass" id="pass2"/>
-					<div class="span3 pull-right">
+					<div class="span3 pull-right" id="strength">
 						...
 					</div>
 				</div>
@@ -113,7 +120,7 @@ h4{
 					</div>
 					<input type="password" class="input span6" name="pass-confirm" id="cpass2"/>
 					<div class="span3 pull-right" id="match">
-						match
+						...
 					</div>
 				</div>
 				<div class="row-fluid">
@@ -148,6 +155,32 @@ $("#pass2,#cpass2").keyup(function(){
 	var b = $("#cpass2").val();
 	if(a=="" || a!=b){$("#match").html('<span style="color:red">passwords dont match</span>')}
 	else{$("#match").html('<span style="color:green">passwords match</span>')}
+});
+
+$("#pass2").keyup(function(){
+	var val = $("#pass2").val();
+	var str = 0;
+	if(/^[a-zA-Z0-9- ]*$/.test(val) == false)
+		str += 1; //special char
+	if(val.match(/\d+/g) != null)
+		str += 1; //number
+	if(val.match(/[A-Z]/) != null)
+		str +=1; //capitals
+	if(val.length < 5)
+		str = 0;
+	if(val.length > 15)
+		str = 2
+	if(val.length > 20)
+		str = 3
+
+	if(str == 0)
+		$("#strength").html("Weak").css("backgroundColor","rgba(255,0,0,0.5)");
+	else if(str == 1)
+		$("#strength").html("Medium").css("backgroundColor","rgba(255,150,0,0.5)");
+	else if(str == 2)
+		$("#strength").html("Medium").css("backgroundColor","rgba(255,255,0,0.5)");
+	else if(str == 3)
+		$("#strength").html("Strong").css("backgroundColor","rgba(0,255,0,0.5)");
 });
 
 $("#user2").keyup(function(){
