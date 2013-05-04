@@ -19,6 +19,15 @@
 .navbar-inner{
 	border-radius: 0px;
 }
+.brand img{
+  width: 30px;
+  position: relative;
+  top: -2px;
+  margin-right: 5px;
+}
+.brand:hover{
+  text-shadow: 0px 0px 5px;
+}
 span{
 	font-size: 20px;
 }
@@ -46,7 +55,10 @@ h3{
 
 <div class="navbar navbar-inverse">
   <div class="navbar-inner">
-    <a class="brand" href="./index.php">Danbo</a>
+    <a class="brand" href="./index.php">
+      <img src="./danbo.png">
+      Danbo
+    </a>
     <ul class="nav">
       <li><a href="./index.php">Home</a></li>
       <li><a href="./score.php">Scores</a></li>

@@ -174,13 +174,13 @@ $("#pass2").keyup(function(){
 		str = 3
 
 	if(str == 0)
-		$("#strength").html("Weak").css("backgroundColor","rgba(255,0,0,0.5)");
+		$("#strength").html("Weak").animate({backgroundColor: "rgba(255,0,0,0.5)"},500);
 	else if(str == 1)
-		$("#strength").html("Medium").css("backgroundColor","rgba(255,150,0,0.5)");
+		$("#strength").html("Medium").animate({backgroundColor: "rgba(255,150,0,0.5)"},500);
 	else if(str == 2)
-		$("#strength").html("Medium").css("backgroundColor","rgba(255,255,0,0.5)");
+		$("#strength").html("Medium").animate({backgroundColor: "rgba(255,255,0,0.5)"},500);
 	else if(str == 3)
-		$("#strength").html("Strong").css("backgroundColor","rgba(0,255,0,0.5)");
+		$("#strength").html("Strong").animate({backgroundColor: "rgba(0,255,0,0.5)"},500);
 });
 
 $("#user2").keyup(function(){

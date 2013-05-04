@@ -55,6 +55,9 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 		padding: 10px 0px 7px 3px;
 		background-color: rgb(255, 245, 0);
 	}
+	table{
+		margin-bottom: 300px;
+	}
 	</style>
 
 	<div class="navbar navbar-inverse">
@@ -64,7 +67,7 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 	    	Danbo
 	    </a>
 	    <ul class="nav">
-	      <li class="active"><a href="./index.php">Home</a></li>
+	      <li><a href="./index.php">Home</a></li>
 	      <li><a href="./score.php">Scores</a></li>
 	      <li><a href="./random.php">Random Set</a></li>
 	    </ul>
@@ -88,7 +91,8 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 							/
 							<span class="total"></span>
 						</span>
-						 correct.
+						&nbsp;correct (
+						<span class="percent"></span>%)
 					</div>
 					<table class='table table-bordered table-hover span12'>
 						<tr>
@@ -110,12 +114,15 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 
 		$percent = (strlen($answer)-levenshtein($answer, $given))/strlen($answer);
 
+		if($percent < 0)
+			$percent = 0;
+
 		if($percent > 0.8){
-			echo '</td><td class="correct">Correct</td></tr>';
+			echo '</td><td class="correct">Correct ('.round($percent*100).'%)</td></tr>';
 			$score ++;
 		}
 		else{
-			echo '</td><td class="wrong">Wrong</td></tr>';
+			echo '</td><td class="wrong">Wrong ('.round($percent*100).'%)</td></tr>';
 		}
 	}
 	unset($_SESSION['answers']);
@@ -133,9 +140,25 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 		$('.brand img').attr('src','./danbo.png');
 	});
 	$("#key").unbind('keyup').keyup(function(ev){$(this).val($(this).val().replace(/ /g,"_"))});
-	$(".totscore .score").html('<?php echo $score; ?>');
-	$(".totscore .total").html('<?php echo $total; ?>');
+	var score = <?php echo $score; ?>;
+	var total = <?php echo $total; ?>;
+	var percent = score/total;
+	$(".totscore .score").html(score);
+	$(".totscore .total").html(total);
+	$(".percent").html(percent*100);
+	if(percent < 0.3)
+		$(".round").css("backgroundColor", "rgba(255, 0, 0, 0.6)");
+	else if(percent < 0.5)
+		$(".round").css("backgroundColor", "rgba(255, 122, 0, 0.75)");
+	else if(percent < 0.7)
+		$(".round").css("backgroundColor", "rgba(255, 255, 0, 0.75)");
+	else if(percent < 0.9)
+		$(".round").css("backgroundColor", "rgba(200, 255, 0, 0.75)");
+	else
+		$(".round").css("backgroundColor", "rgba(0, 255, 0, 0.75)");
+
 	</script>
+
 	<script type="text/javascript">
 	$('td').popover();
 	</script>

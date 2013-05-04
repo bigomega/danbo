@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_SESSION['logged']) && isset($_GET['type'])) {
 	$db = json_decode(file_get_contents(".db"));
-	$url = "./default_profile_image.gif";
+	$url = "./danbo.png";
 
 	if ($_GET['type']=="Facebook") {
 		$url = "https://graph.facebook.com/".$_GET['id']."/picture?width=200&height=200";

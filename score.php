@@ -75,8 +75,8 @@
     	Danbo
     </a>
     <ul class="nav">
-      <li class="active"><a href="./index.php">Home</a></li>
-      <li><a href="./score.php">Scores</a></li>
+      <li><a href="./index.php">Home</a></li>
+      <li class="active"><a href="./score.php">Scores</a></li>
       <li><a href="./random.php">Random Set</a></li>
     </ul>
     <ul class="nav pull-right">
