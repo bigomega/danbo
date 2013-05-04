@@ -40,7 +40,7 @@ h4{
 
 <div class="navbar navbar-inverse">
   <div class="navbar-inner">
-    <a class="brand" href="#">
+    <a class="brand" href="./index.php">
     	<img src="./danbo.png">
     	Danbo
     </a>
@@ -72,7 +72,7 @@ h4{
 					<div class="span2 offset1">
 						Password: 
 					</div>
-					<input type="text" class="input span6" name="pass" />
+					<input type="password" class="input span6" name="pass" />
 					<div class="span3 pull-right">
 						<a href="javascript:alert('sorry!!!\nno can do babydoll')">forgot password?</a>
 					</div>
@@ -93,7 +93,7 @@ h4{
 					<div class="span2 offset1">
 						User Name:
 					</div>
-					<input type="text" class="input span6" name="user" />
+					<input type="text" class="input span6" name="user" id="user2"/>
 					<div class="span3 pull-right" id="userPresent">
 						...
 					</div>
@@ -102,7 +102,7 @@ h4{
 					<div class="span2 offset1">
 						Password: 
 					</div>
-					<input type="text" class="input span6" name="pass" />
+					<input type="password" class="input span6" name="pass" id="pass2"/>
 					<div class="span3 pull-right">
 						...
 					</div>
@@ -111,8 +111,8 @@ h4{
 					<div class="span2 offset1">
 						Confirm Password: 
 					</div>
-					<input type="text" class="input span6" name="pass-confirm" />
-					<div class="span3 pull-right">
+					<input type="password" class="input span6" name="pass-confirm" id="cpass2"/>
+					<div class="span3 pull-right" id="match">
 						match
 					</div>
 				</div>
@@ -141,5 +141,30 @@ $('.brand').mouseout(function(){
 $(".registerLogin").click(function(){
 	$("#form1").slideToggle(500);
 	$("#form2").slideToggle(500);
+});
+
+$("#pass2,#cpass2").keyup(function(){
+	var a = $("#pass2").val();
+	var b = $("#cpass2").val();
+	if(a=="" || a!=b){$("#match").html('<span style="color:red">passwords dont match</span>')}
+	else{$("#match").html('<span style="color:green">passwords match</span>')}
+});
+
+$("#user2").keyup(function(){
+	$.ajax({
+		url: "./oauth/user.php",
+		type: "GET",
+		data: {name: $(this).val()},
+		dataType: "json",
+		success: function(response){
+			if(response.avail)
+				$("#userPresent").html("<span style='color:green'>Username Available</span>");
+			else
+				$("#userPresent").html("<span style='color:red'>Username Taken</span>");
+		},
+		error: function(response){
+			$("#userPresent").html("<span style='color:rgb(0, 194, 243)'>network error</span>");
+		}
+	});
 });
 </script>

@@ -10,7 +10,7 @@ if (isset($_POST['user']) && isset($_POST['pass'])) {
 	$pass = $_POST["pass"];
 	$db = json_decode(file_get_contents(".db"));
 	if(property_exists($db->{'user'}, $user) == false){
-		$db->{'user'}->{$user} = json_encode (json_decode ("{image:'./default_profile_image.gif',score:[]}"));
+		$db->{'user'}->{$user} = array("image" => "./default_profile_image.gif", "score" => array());
 		$db->{'password'}->{$user} = md5($pass);
 		file_put_contents(".db", json_encode($db));
 		$_SESSION['user'] = $user;

@@ -22,6 +22,10 @@ if(isset($_GET['key'])){
 	json_last_error();
 
 	if($sentences[0] == "NO DATA" || strpos($sentences[0],'may refer to') !== false || (strpos(strtolower($sentences[0]) , 'redirect') !== false && strpos(strtolower($sentences[0]) , 'redirect') < 5)){
+		if($sentences[0] == "NO DATA" && str_replace("_", " ", $keyWord) != ucwords(str_replace("_", " ", $keyWord))){
+			header('location: ./questions.php?key='.str_replace(" ", "_", ucwords(str_replace("_"," ",$keyWord))).'&no='.$no);
+			exit();
+		}
 		if(strpos($sentences[0],'may refer to') !== false)
 			header('location: ./suggestion.php?key='.$keyWord.'&disamb=true');
 		elseif (strpos(strtolower($sentences[0]) , 'redirect') !== false) {

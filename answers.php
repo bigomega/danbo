@@ -43,6 +43,18 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 		color: red;
 		font-weight: bold;
 	}
+	.totscore{
+		font-size: 20px;
+		font-weight: bold;
+		margin-bottom: 10px;
+		margin-left: 30px;
+	}
+	.totscore .round{
+		border: 1px solid black;
+		border-radius: 50%;
+		padding: 10px 0px 7px 3px;
+		background-color: rgb(255, 245, 0);
+	}
 	</style>
 
 	<div class="navbar navbar-inverse">
@@ -69,6 +81,15 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 			<div class="span8 offset2">
 				<h3><?php echo $keyWord; ?> answers</h3>
 				<div class="row-fluid">
+					<div class="span12 totscore">
+						You got 
+						<span class="round">
+							<span class="score"></span>
+							/
+							<span class="total"></span>
+						</span>
+						 correct.
+					</div>
 					<table class='table table-bordered table-hover span12'>
 						<tr>
 							<th>No.</th>
@@ -85,7 +106,7 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 		$answer = strtolower($answerU);
 		$fullAnswer = $_SESSION['questions'][$i];
 
-		echo '<tr><td>'.($i+1).'</td><td>'.$given.'</td><td data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="hover" data-title="" data-content="'.$fullAnswer.'" data-container="body">'.$answerU;
+		echo '<tr><td>'.($i+1).'</td><td>'.$given.'</td><td data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="hover" data-title="" data-content="'.str_replace("\"", "'", $fullAnswer).'" data-container="body">'.$answerU;
 
 		$percent = (strlen($answer)-levenshtein($answer, $given))/strlen($answer);
 
@@ -112,6 +133,8 @@ if(isset($_POST['no']) && intval($_POST['no']) > 0 && isset($_SESSION['answers']
 		$('.brand img').attr('src','./danbo.png');
 	});
 	$("#key").unbind('keyup').keyup(function(ev){$(this).val($(this).val().replace(/ /g,"_"))});
+	$(".totscore .score").html('<?php echo $score; ?>');
+	$(".totscore .total").html('<?php echo $total; ?>');
 	</script>
 	<script type="text/javascript">
 	$('td').popover();
